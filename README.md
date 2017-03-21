@@ -1,4 +1,4 @@
-# resnetTrainer
+# nnTrainer + loadcaffe capabilities
 Implementation of a ResNet for learning on new datasets. Adapted from Facebook's implementation.
 
 This fork includes loadcaffe library and alexnet finetuning capabilities. 
@@ -12,6 +12,7 @@ for possible missing dependencies:
 sudo apt-get install libprotobuf-dev protobuf-compiler
 ```
 
+Using the -freeze option, you can freeze n number of layer during finetuning. For no freezing, use 0.
 
 ## Usage details:
 th main.lua -h -- brings up the help with all options
