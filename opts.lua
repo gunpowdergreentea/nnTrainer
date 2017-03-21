@@ -31,6 +31,9 @@ function M.parse(arg)
    cmd:option('-nEpochs',         0,       'Number of total epochs to run')
    cmd:option('-batchSize',       32,      'mini-batch size (1 = pure stochastic)')
    cmd:option('-nClasses',         0,      'Number of classes in the dataset')
+   cmd:option('-finetune',       'false',         'Enable to finetune alexnet.')
+   cmd:option('-freeze',        5,      'Select number of layers to freeze during finetuning.')
+
    ---------- Optimization options ----------------------
    cmd:text('---------- Optimization options ----------------------')
    cmd:option('-LR',              0.1,   'initial learning rate')
