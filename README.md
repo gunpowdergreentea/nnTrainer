@@ -12,7 +12,7 @@ for possible missing dependencies:
 sudo apt-get install libprotobuf-dev protobuf-compiler
 ```
 
-Using the -freeze option, you can freeze n number of layers during finetuning. For no freezing, use 0.
+Using the -freeze option, you can freeze weights of n number of layers during finetuning. For no freezing, use 0.
 
 ## Usage details:
 th main.lua -h -- brings up the help with all options
