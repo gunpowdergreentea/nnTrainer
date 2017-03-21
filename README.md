@@ -1,5 +1,16 @@
 # resnetTrainer
 Implementation of a ResNet for learning on new datasets. Adapted from Facebook's implementation.
+This fork includes loadcaffe library. 
+
+```
+luarocks install loadcaffe
+```
+for possible missing dependencies:
+
+```
+sudo apt-get install libprotobuf-dev protobuf-compiler
+```
+
 
 ## Usage details:
 th main.lua -h -- brings up the help with all options
