@@ -34,7 +34,7 @@ caffemodel','cudnn')
 
       local count = 0
       for i, m in ipairs(model.modules) do
-        if count == 5 then break end
+        if count == opt.freeze then break end
         if torch.type(m):find('Convolution') then
            m.accGradParameters = function() end
            m.updateParameters = function() end
