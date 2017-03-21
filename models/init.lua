@@ -6,22 +6,42 @@
 require 'nn'
 require 'cunn'
 require 'cudnn'
+require 'loadcaffe'
 
 local M = {}
 
 function M.setup(opt)
    local model
-   
-   if opt.finetune ~= '' then
-   
-      print('=> Loading pre-trained model from file: models/' .. opt.finetune)
-      model = torch.load(opt.finetune)
+
+   if opt.finetune == 'true' then
+
+      if opt.model == 'resnet' then
+         error('finetuning not compatible with resnet')
+      end
+
+      print('=> Loading pre-trained model...')
+      model = loadcaffe.load('models/'..opt.model..'_pretrained/deploy.prototxt', 'models/'..opt.model..'_pretrained/bvlc_alexnet.\
+caffemodel','cudnn')
       print(' => Replacing classifier with ' .. opt.nClasses .. '-way classifier')
-      local orig = model:get(#model.modules)
+      local orig = model:get(#model.modules - 1)
       local linear = nn.Linear(orig.weight:size(2), opt.nClasses)
       linear.bias:zero()
+      model:remove(#model.modules - 1)
       model:remove(#model.modules)
       model:add(linear:type('torch.CudaTensor'))
+      model:add(nn.LogSoftMax():type('torch.CudaTensor'))
+
+      local count = 0
+      for i, m in ipairs(model.modules) do
+        if count == 5 then break end
+        if torch.type(m):find('Convolution') then
+           m.accGradParameters = function() end
+           m.updateParameters = function() end
+           count = count + 1
+           print('Freezing layer '..count)
+        end
+    end
+
    
    else
       print('=> Creating model from file: models/' .. opt.model .. '.lua')
